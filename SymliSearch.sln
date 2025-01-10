@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6903A815-A791-4621-852B-4C2B3F26B897}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{96D7520B-ACFC-4B1F-B7D8-65A0E65FCEF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.ApiService", "src\SympliSearch.ApiService\SympliSearch.ApiService.csproj", "{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.Web", "src\SympliSearch.Web\SympliSearch.Web.csproj", "{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.AppHost", "src\SympliSearch.AppHost\SympliSearch.AppHost.csproj", "{0F280D61-898D-4864-974D-C72FA755213F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.ServiceDefaults", "src\SympliSearch.ServiceDefaults\SympliSearch.ServiceDefaults.csproj", "{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18} = {6903A815-A791-4621-852B-4C2B3F26B897}
+		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54} = {6903A815-A791-4621-852B-4C2B3F26B897}
+		{0F280D61-898D-4864-974D-C72FA755213F} = {6903A815-A791-4621-852B-4C2B3F26B897}
+		{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1} = {6903A815-A791-4621-852B-4C2B3F26B897}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D207A3DA-74E6-4A4B-B41A-2F171FEE2D18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F280D61-898D-4864-974D-C72FA755213F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F280D61-898D-4864-974D-C72FA755213F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F280D61-898D-4864-974D-C72FA755213F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F280D61-898D-4864-974D-C72FA755213F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8EB6F5A-B5AB-4CC6-A4A8-97CFE6F2E3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
