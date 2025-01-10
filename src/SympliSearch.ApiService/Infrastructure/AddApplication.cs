@@ -1,6 +1,7 @@
 using SympliSearch.ApiService.Infrastructure.Interceptors;
 using SympliSearch.ApiService.Services;
 using Microsoft.AspNetCore.Identity;
+using SympliSearch.ApiService.Services.Search;
 
 namespace SympliSearch.ApiService.Infrastructure;
 
@@ -11,6 +12,11 @@ public static class AddApplicationDependencyInjection
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
         builder.Services.AddTransient<ICacheService, CacheService>();
         builder.Services.AddTransient<IFileService, FileService>();
+
+        builder.Services.AddScoped<SearchEngineFactory>();
+        builder.Services.AddScoped<SearchManager>();
+        builder.Services.AddTransient<GoogleSearchEngine>();
+        builder.Services.AddTransient<BingSearchEngine>();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {
