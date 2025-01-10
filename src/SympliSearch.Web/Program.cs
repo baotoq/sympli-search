@@ -1,3 +1,4 @@
+using SympliSearch.ServiceDefaults;
 using SympliSearch.Web;
 using SympliSearch.Web.Components;
 

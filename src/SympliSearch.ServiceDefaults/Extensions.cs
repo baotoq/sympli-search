@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Scalar.AspNetCore;
 
-namespace Microsoft.Extensions.Hosting;
+namespace SympliSearch.ServiceDefaults;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
@@ -19,6 +20,9 @@ public static class Extensions
     {
         builder.ConfigureOpenTelemetry();
 
+        builder.Services.AddRequestTimeouts();
+        builder.Services.AddOutputCache();
+        builder.Services.AddResponseCaching();
         builder.AddDefaultHealthChecks();
 
         builder.Services.AddServiceDiscovery();
@@ -54,6 +58,7 @@ public static class Extensions
             {
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
+                    .AddMeter("MassTransit")
                     .AddRuntimeInstrumentation();
             })
             .WithTracing(tracing =>
@@ -62,6 +67,7 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                     //.AddGrpcClientInstrumentation()
+                    .AddSource("MassTransit")
                     .AddHttpClientInstrumentation();
             });
 
@@ -91,6 +97,15 @@ public static class Extensions
 
     public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        builder.Services.AddRequestTimeouts(
+            configure: static timeouts =>
+                timeouts.AddPolicy("HealthChecks", TimeSpan.FromSeconds(5)));
+
+        builder.Services.AddOutputCache(
+            configureOptions: static caching =>
+                caching.AddPolicy("HealthChecks",
+                    build: static policy => policy.Expire(TimeSpan.FromSeconds(5))));
+
         builder.Services.AddHealthChecks()
             // Add a default liveness check to ensure app is responsive
             .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
@@ -100,17 +115,40 @@ public static class Extensions
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {
-        // Adding health checks endpoints to applications in non-development environments has security implications.
-        // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
+        var healthChecks = app.MapGroup("");
+
+        healthChecks
+            .CacheOutput("HealthChecks")
+            .WithRequestTimeout("HealthChecks");
+
+        // All health checks must pass for app to be considered ready to accept traffic after starting
+        healthChecks.MapHealthChecks("/health", new HealthCheckOptions
+        {
+            ResponseWriter = HealthCheckExtensions.WriteResponse
+        });
+
+        // Only health checks tagged with the "live" tag must pass for app to be considered alive
+        healthChecks.MapHealthChecks("/alive", new HealthCheckOptions
+        {
+            Predicate = static r => r.Tags.Contains("live"),
+            ResponseWriter = HealthCheckExtensions.WriteResponse
+        });
+
+        return app;
+    }
+
+    public static WebApplication MapOpenApiEndpoints(this WebApplication app)
+    {
         if (app.Environment.IsDevelopment())
         {
-            // All health checks must pass for app to be considered ready to accept traffic after starting
-            app.MapHealthChecks("/health");
-
-            // Only health checks tagged with the "live" tag must pass for app to be considered alive
-            app.MapHealthChecks("/alive", new HealthCheckOptions
+            app.MapOpenApi();
+            app.MapScalarApiReference(options =>
             {
-                Predicate = r => r.Tags.Contains("live")
+                options
+                    .WithTitle("SympliSearch API Reference")
+                    .WithCdnUrl("https://cdn.jsdelivr.net/npm/@scalar/api-reference")
+                    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.Curl)
+                    .WithDarkMode(true);
             });
         }
 
