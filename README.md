@@ -44,14 +44,17 @@ flowchart TD
     subgraph Web Server Layer
         B -->|Step 2: Distribute Requests| C[API Gateway]:::gateway
         C -->|Step 3: Verify Authentication| D[Authentication Service]:::auth
-        C -->|Step 4: Forward to Search Service| E[Search Service]:::searchservice
+        C -->|Step 4: Apply Rate Limiting| RL[Rate Limiter]:::ratelimiter
+        RL -->|Forward Allowed Requests| E[Search Service]:::searchservice
     end
 
     %% Search Service Layer
     subgraph Search Service Layer
         E -->|Step 5: Check Cache| F[[Redis Cache]]:::cache
 
-        F -->|Cache Miss| H[Search Engine Factory]:::factory
+        F -->|Cache Miss| CB[Circuit Breaker]:::circuitbreaker
+        CB -->|Allowed| H[Search Engine Factory]:::factory
+        CB -->|Blocked| X[Error Response]:::error
 
         subgraph Scrapers
             H --> H1[Google Scraper]:::scraper
@@ -65,8 +68,6 @@ flowchart TD
 
         I -->|Step 7: Save to Database| N[(Database)]:::database
         I -->|Step 8: Update Cache| F
-
-
         I -->|Step 10: Publish to Message Broker| MB[Message Broker]:::broker
     end
 
@@ -94,4 +95,7 @@ flowchart TD
     classDef analytics fill:#1976D2,stroke:#004BA0,stroke-width:2px,color:#FFF; %% Material Blue 700
     classDef notifications fill:#E64A19,stroke:#BF360C,stroke-width:2px,color:#FFF; %% Material Deep Orange 700
     classDef database fill:#3E2723,stroke:#1B1B1B,stroke-width:2px,color:#FFF,shape:subroutine; %% Material Dark Brown
+    classDef circuitbreaker fill:#FFB74D,stroke:#FF8A65,stroke-width:2px,color:#FFF,shape:hexagon; %% Material Orange 400
+    classDef ratelimiter fill:#64B5F6,stroke:#1E88E5,stroke-width:2px,color:#FFF; %% Material Light Blue 400
+    classDef error fill:#FF5252,stroke:#D50000,stroke-width:2px,color:#FFF; %% Material Red 500
 ```
