@@ -29,8 +29,6 @@
 ### CI & CD
 
 - **[`GitHub Actions`](https://github.com/features/actions)**
-- **[`Flux CD`](https://fluxcd.io/)** - Flux CD automates Kubernetes deployment from Git, ensuring continuous delivery seamlessly.
-- **[`SonarCloud`](https://sonarcloud.io/)**
 
 
 ### Charts
