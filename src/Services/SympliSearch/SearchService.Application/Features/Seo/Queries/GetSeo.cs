@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.CircuitBreaker;
 using SearchService.Application.Common;
+using SearchService.Application.Common.Exceptions;
 using SearchService.Application.Common.Interfaces;
 using SearchService.Application.Features.Seo.DomainEvents;
 using SearchService.Application.Services.Search;
@@ -59,11 +62,21 @@ public class GetSeo : IEndpoint
 
     public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory) : IRequestHandler<Query, string>
     {
+        private static readonly AsyncCircuitBreakerPolicy s_circuitBreaker
+            = Policy.Handle<Exception>().CircuitBreakerAsync(3, TimeSpan.FromMinutes(1));
+
         public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
+            if (s_circuitBreaker.CircuitState == CircuitState.Open)
+            {
+                throw new ServiceUnavailableException();
+            }
+
             var searchEngine = searchEngineFactory.Create(request.SearchEngineType);
 
-            var results = await searchEngine.GetSearchResultsAsync(request.Keyword, request.Url);
+            var results =
+                s_circuitBreaker.ExecuteAsync(
+                    () => searchEngine.GetSearchResultsAsync(request.Keyword, request.Url));
 
             var searchHistory = new SearchHistory
             {

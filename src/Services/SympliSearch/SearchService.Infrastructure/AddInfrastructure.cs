@@ -43,16 +43,6 @@ public static class AddInfrastructureDependencyInjection
                 options.QueueLimit = 2;
             }));
 
-        builder.Services.AddProblemDetails(options =>
-        {
-            options.CustomizeProblemDetails = context =>
-            {
-                context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-                context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
-                context.ProblemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id);
-            };
-        });
-        builder.Services.AddExceptionHandler<InvalidValidationExceptionHandler>();
         builder.Services.AddHttpContextAccessor();
 
         builder.AddEfCore();
