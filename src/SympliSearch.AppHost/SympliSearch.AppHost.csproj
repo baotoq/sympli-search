@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SympliSearch.ApiService\SympliSearch.ApiService.csproj"/>
-    <ProjectReference Include="..\SympliSearch.MigrationService\SympliSearch.MigrationService.csproj" />
+    <ProjectReference Include="..\Services\SympliSearch.MigrationService\SympliSearch.MigrationService.csproj" />
+    <ProjectReference Include="..\Services\SympliSearch\SympliSearch.ApiService\SympliSearch.ApiService.csproj" />
     <ProjectReference Include="..\SympliSearch.Web\SympliSearch.Web.csproj"/>
   </ItemGroup>
 
