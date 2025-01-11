@@ -24,11 +24,10 @@ public class DbInitializer(IServiceProvider serviceProvider, ILogger<DbInitializ
         {
             using var scope = serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
             var environment = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-            await InitializeDatabaseAsync(context, publishEndpoint, environment, userManager, cancellationToken);
+            await InitializeDatabaseAsync(context, environment, userManager, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -37,7 +36,7 @@ public class DbInitializer(IServiceProvider serviceProvider, ILogger<DbInitializ
         }
     }
 
-    public async Task InitializeDatabaseAsync(ApplicationDbContext context, IPublishEndpoint publishEndpoint,IHostEnvironment environment, UserManager<User> userManager,
+    public async Task InitializeDatabaseAsync(ApplicationDbContext context, IHostEnvironment environment, UserManager<User> userManager,
         CancellationToken cancellationToken = default)
     {
         var sw = Stopwatch.StartNew();

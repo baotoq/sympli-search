@@ -18,10 +18,8 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
-// Add services to the container.
 builder.AddInfrastructure();
 builder.AddApplication();
-builder.Services.AddEndpoints();
 
 var app = builder.Build();
 

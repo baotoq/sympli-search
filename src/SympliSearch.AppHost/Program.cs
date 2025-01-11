@@ -19,8 +19,6 @@ if (builder.Environment.IsDevelopment())
         .WithHttpEndpoint(10000, 10000));
 }
 
-var blobs = storage.AddBlobs("blobs");
-
 var cache = builder.AddRedis("redis")
     .WithRedisInsight()
     .WithDataVolume()
@@ -34,14 +32,12 @@ var rabbitmq = builder.AddRabbitMQ("messaging")
 var migrationService = builder.AddProject<Projects.SympliSearch_MigrationService>("migrationservice")
     .WithReference(db).WaitFor(db)
     .WithReference(rabbitmq).WaitFor(rabbitmq)
-    .WithReference(blobs)
     .WithHttpHealthCheck("/health");
 
 var apiService = builder.AddProject<Projects.SympliSearch_ApiService>("apiservice")
     .WithReference(cache)
     .WithReference(rabbitmq).WaitFor(rabbitmq)
     .WithReference(db).WaitFor(db)
-    .WithReference(blobs)
     .WithHttpHealthCheck("/health");
 
 builder.AddProject<Projects.SympliSearch_Web>("webfrontend")

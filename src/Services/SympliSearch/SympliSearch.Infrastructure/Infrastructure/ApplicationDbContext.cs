@@ -1,7 +1,7 @@
-using Elastic.Clients.Elasticsearch.Security;
 using MassTransit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SympliSearch.Domain.Entities;
 using Role = SympliSearch.Domain.Entities.Role;
 using User = SympliSearch.Domain.Entities.User;
 
@@ -20,6 +20,14 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<SearchHistory>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Keyword).IsRequired().HasMaxLength(255);
+            entity.Property(e => e.Url).IsRequired().HasMaxLength(2000);
+            entity.Property(e => e.Positions).IsRequired();
+        });
 
         modelBuilder.AddTransactionalOutboxEntities();
     }

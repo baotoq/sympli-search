@@ -25,32 +25,8 @@ builder.AddNpgsqlDbContext<ApplicationDbContext>("db", settings =>
         options.UseNpgsql(b => b.MigrationsAssembly(typeof(Program).Assembly)).UseSnakeCaseNamingConvention();
     });
 
-builder.Services.AddMassTransit(s =>
-{
-    s.AddConsumers(typeof(Program).Assembly);
-    s.UsingRabbitMq((context, cfg) =>
-    {
-        var configuration = context.GetRequiredService<IConfiguration>();
-        var host = configuration.GetConnectionString("messaging");
-
-        cfg.Host(host);
-        cfg.ConfigureEndpoints(context);
-
-        cfg.PrefetchCount = 1;
-        cfg.AutoDelete = true;
-    });
-
-    s.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
-    {
-        o.UsePostgres();
-        o.UseBusOutbox(c => c.DisableDeliveryService());
-        o.DisableInboxCleanupService();
-    });
-});
-
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.AddAzureBlobClient("blobs");
 builder.Services.AddSingleton<DbInitializer>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<DbInitializer>());
 builder.Services.AddHealthChecks()
@@ -60,13 +36,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapGet("/reset", async (ApplicationDbContext dbContext, IPublishEndpoint publishEndpoint,
+    app.MapGet("/reset", async (ApplicationDbContext dbContext,
         DbInitializer dbInitializer,
         IHostEnvironment environment, UserManager<User> userManager, CancellationToken cancellationToken) =>
     {
         // Delete and recreate the database. This is useful for development scenarios to reset the database to its initial state.
         await dbContext.Database.EnsureDeletedAsync(cancellationToken);
-        await dbInitializer.InitializeDatabaseAsync(dbContext, publishEndpoint, environment, userManager, cancellationToken);
+        await dbInitializer.InitializeDatabaseAsync(dbContext, environment, userManager, cancellationToken);
 
         return Results.Ok("ok");
     });

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using Ardalis.GuardClauses;
-using Elastic.Clients.Elasticsearch.Security;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -18,6 +17,7 @@ using StackExchange.Redis;
 using SympliSearch.Infrastructure.Infrastructure.Behaviour;
 using SympliSearch.Infrastructure.Infrastructure.Exceptions;
 using SympliSearch.Infrastructure.Infrastructure.Interceptors;
+using User = SympliSearch.Domain.Entities.User;
 
 namespace SympliSearch.Infrastructure.Infrastructure;
 
@@ -48,15 +48,13 @@ public static class AddInfrastructureDependencyInjection
         builder.Services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
 
         builder.AddEfCore();
-        builder.AddMassTransit();
+        builder.AddMassTransit(Assembly.GetCallingAssembly());
 
         builder.AddRedisDistributedCache("redis");
         builder.AddRedisOutputCache("redis");
         builder.AddRedLock();
 
         builder.AddAuthorization();
-
-        builder.AddAzureBlobClient("blobs");
     }
 
     private static void AddRedLock(this IHostApplicationBuilder builder)
@@ -101,11 +99,11 @@ public static class AddInfrastructureDependencyInjection
         });
     }
 
-    public static void AddMassTransit(this IHostApplicationBuilder builder)
+    public static void AddMassTransit(this IHostApplicationBuilder builder, Assembly assembly)
     {
         builder.Services.AddMassTransit(s =>
         {
-            s.AddConsumers(Assembly.GetCallingAssembly());
+            s.AddConsumers(assembly);
             s.UsingRabbitMq((context, cfg) =>
             {
                 var configuration = context.GetRequiredService<IConfiguration>();

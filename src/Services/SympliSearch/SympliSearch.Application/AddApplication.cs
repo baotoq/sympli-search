@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SympliSearch.Application.Services;
 using SympliSearch.Application.Services.Search;
+using SympliSearch.Infrastructure.Infrastructure;
 using SympliSearch.Infrastructure.Infrastructure.Dispatcher;
 
 namespace SympliSearch.Application;
@@ -18,6 +19,8 @@ public static class AddApplicationDependencyInjection
         builder.Services.AddScoped<SearchManager>();
         builder.Services.AddTransient<GoogleSearchEngine>();
         builder.Services.AddTransient<BingSearchEngine>();
+
+        builder.Services.AddEndpoints();
 
         builder.Services.Configure<IdentityOptions>(options =>
         {

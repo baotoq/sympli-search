@@ -5,7 +5,7 @@ public class SearchManager
     private readonly SearchEngineFactory _searchEngineFactory;
     private readonly ICacheService _cacheService;
 
-    public SearchManager(CacheService cacheService, SearchEngineFactory searchEngineFactory)
+    public SearchManager(ICacheService cacheService, SearchEngineFactory searchEngineFactory)
     {
         _cacheService = cacheService;
         _searchEngineFactory = searchEngineFactory;
