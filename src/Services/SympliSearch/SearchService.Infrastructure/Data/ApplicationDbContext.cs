@@ -1,13 +1,14 @@
 using MassTransit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SearchService.Application.Common.Interfaces;
 using SearchService.Domain.Entities;
 using Role = SearchService.Domain.Entities.Role;
 using User = SearchService.Domain.Entities.User;
 
 namespace SearchService.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
+public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>, IApplicationDbContext
 {
     public ApplicationDbContext()
     {
@@ -16,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
+
+    public DbSet<SearchHistory> SearchHistories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

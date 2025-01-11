@@ -2,7 +2,7 @@ using SearchService.Domain.Common;
 
 namespace SearchService.Domain.Entities;
 
-public class SearchHistory : IDateEntity
+public class SearchHistory : EntityBase, IDateEntity
 {
     public SearchHistory()
     {
@@ -16,8 +16,5 @@ public class SearchHistory : IDateEntity
     public string Positions { get; set; } = string.Empty;
 
     public required Guid SearchByUserId { get; set; }
-    public required User SearchByUser { get; set; }
-
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset? UpdatedAt { get; set; }
+    public User SearchByUser { get; set; }
 }

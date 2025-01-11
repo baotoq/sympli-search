@@ -1,10 +1,13 @@
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.RateLimiting;
 using Ardalis.GuardClauses;
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +33,15 @@ public static class AddInfrastructureDependencyInjection
 {
     public static void AddInfrastructure(this IHostApplicationBuilder builder)
     {
-        // Add services to the container.
+        builder.Services.AddRateLimiter(_ => _
+            .AddFixedWindowLimiter(policyName: "fixed", options =>
+            {
+                options.PermitLimit = 4;
+                options.Window = TimeSpan.FromSeconds(12);
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                options.QueueLimit = 2;
+            }));
+
         builder.Services.AddProblemDetails(options =>
         {
             options.CustomizeProblemDetails = context =>
@@ -52,6 +63,7 @@ public static class AddInfrastructureDependencyInjection
 
         builder.AddAuthorization();
 
+        builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
         builder.Services.AddTransient<ICacheService, CacheService>();
         builder.Services.AddScoped<SearchEngineFactory>();

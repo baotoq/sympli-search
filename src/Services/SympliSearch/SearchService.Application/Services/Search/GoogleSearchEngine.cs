@@ -4,8 +4,6 @@ namespace SearchService.Application.Services.Search;
 
 public class GoogleSearchEngine : ISearchEngine
 {
-    public string EngineName => "google";
-
     public async Task<List<int>> GetSearchResultsAsync(string keywords, string url)
     {
         string query = $"https://www.google.com/search?q={Uri.EscapeDataString(keywords)}";

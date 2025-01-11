@@ -4,8 +4,6 @@ namespace SearchService.Application.Services.Search;
 
 public class BingSearchEngine : ISearchEngine
 {
-    public string EngineName => "bing";
-
     public async Task<List<int>> GetSearchResultsAsync(string keywords, string url)
     {
         string query = $"https://www.bing.com/search?q={Uri.EscapeDataString(keywords)}";
