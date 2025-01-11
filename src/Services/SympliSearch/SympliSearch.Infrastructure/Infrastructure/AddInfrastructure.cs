@@ -1,29 +1,25 @@
 using System.Diagnostics;
 using System.Reflection;
 using Ardalis.GuardClauses;
-using Elastic.Clients.Elasticsearch;
-using Elastic.Transport;
+using Elastic.Clients.Elasticsearch.Security;
 using FluentValidation;
 using MassTransit;
 using MediatR;
-using SympliSearch.ApiService.Infrastructure.Behaviour;
-using SympliSearch.ApiService.Infrastructure.Exceptions;
-using SympliSearch.ApiService.Infrastructure.Interceptors;
-using SympliSearch.ApiService.Services;
-using SympliSearch.ServiceDefaults;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RedLockNet;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
-using SympliSearch.Domain.Entities;
+using SympliSearch.Infrastructure.Infrastructure.Behaviour;
+using SympliSearch.Infrastructure.Infrastructure.Exceptions;
+using SympliSearch.Infrastructure.Infrastructure.Interceptors;
 
-namespace SympliSearch.ApiService.Infrastructure;
+namespace SympliSearch.Infrastructure.Infrastructure;
 
 public static class AddInfrastructureDependencyInjection
 {
@@ -44,12 +40,12 @@ public static class AddInfrastructureDependencyInjection
 
         builder.Services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
-        builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
 
         builder.AddEfCore();
         builder.AddMassTransit();
@@ -109,7 +105,7 @@ public static class AddInfrastructureDependencyInjection
     {
         builder.Services.AddMassTransit(s =>
         {
-            s.AddConsumers(typeof(Program).Assembly);
+            s.AddConsumers(Assembly.GetCallingAssembly());
             s.UsingRabbitMq((context, cfg) =>
             {
                 var configuration = context.GetRequiredService<IConfiguration>();

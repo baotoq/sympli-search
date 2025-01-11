@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace SympliSearch.ApiService.Infrastructure.Behaviour;
+namespace SympliSearch.Infrastructure.Infrastructure.Behaviour;
 
 [DebuggerStepThrough]
 public class PerformanceBehaviour<TRequest, TResponse>(ILoggerFactory logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

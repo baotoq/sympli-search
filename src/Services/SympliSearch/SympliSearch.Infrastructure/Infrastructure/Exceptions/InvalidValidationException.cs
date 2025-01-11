@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace SympliSearch.ApiService.Infrastructure.Exceptions;
+namespace SympliSearch.Infrastructure.Infrastructure.Exceptions;
 
 [Serializable]
 public class InvalidValidationException : Exception

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SympliSearch.Infrastructure.Services.Search;
+namespace SympliSearch.Application.Services.Search;
 
 public class BingSearchEngine : ISearchEngine
 {

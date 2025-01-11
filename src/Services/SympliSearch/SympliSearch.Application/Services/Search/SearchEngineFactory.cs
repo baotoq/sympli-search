@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SympliSearch.Infrastructure.Services.Search;
+namespace SympliSearch.Application.Services.Search;
 
 public enum SearchEngineType
 {

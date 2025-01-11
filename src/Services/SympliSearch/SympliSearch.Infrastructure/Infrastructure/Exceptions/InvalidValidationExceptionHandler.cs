@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SympliSearch.ApiService.Infrastructure.Exceptions;
+namespace SympliSearch.Infrastructure.Infrastructure.Exceptions;
 
 public class InvalidValidationExceptionHandler : IExceptionHandler
 {

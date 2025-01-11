@@ -1,10 +1,11 @@
+using Elastic.Clients.Elasticsearch.Security;
 using MassTransit;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SympliSearch.Domain.Entities;
+using Role = SympliSearch.Domain.Entities.Role;
+using User = SympliSearch.Domain.Entities.User;
 
-namespace SympliSearch.ApiService.Infrastructure;
+namespace SympliSearch.Infrastructure.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {

@@ -21,18 +21,6 @@ if (builder.Environment.IsDevelopment())
 
 var blobs = storage.AddBlobs("blobs");
 
-var elasticsearch = builder.AddElasticsearch("elasticsearch")
-    .WithDataVolume()
-    .WithLifetime(ContainerLifetime.Persistent);
-
-// var kibana = builder.AddContainer("kibana", "kibana", "8.13.0")
-//     .WaitFor(elasticsearch)
-//     .WithEnvironment("ELASTICSEARCH_HOSTS", elasticsearch.GetEndpoint("http"))
-//     .WithEnvironment("ELASTICSEARCH_USERNAME", "kibana_system")
-//     .WithEnvironment("ELASTICSEARCH_PASSWORD", elasticsearch.Resource.PasswordParameter.Value)
-//     .WithHttpEndpoint(targetPort: 5601)
-//     .WithLifetime(ContainerLifetime.Persistent);
-
 var cache = builder.AddRedis("redis")
     .WithRedisInsight()
     .WithDataVolume()
@@ -50,7 +38,6 @@ var migrationService = builder.AddProject<Projects.SympliSearch_MigrationService
     .WithHttpHealthCheck("/health");
 
 var apiService = builder.AddProject<Projects.SympliSearch_ApiService>("apiservice")
-    .WithReference(elasticsearch)
     .WithReference(cache)
     .WithReference(rabbitmq).WaitFor(rabbitmq)
     .WithReference(db).WaitFor(db)

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using FluentValidation;
 using MediatR;
-using SympliSearch.ApiService.Infrastructure.Exceptions;
+using SympliSearch.Infrastructure.Infrastructure.Exceptions;
 
-namespace SympliSearch.ApiService.Infrastructure.Behaviour;
+namespace SympliSearch.Infrastructure.Infrastructure.Behaviour;
 
 [DebuggerStepThrough]
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

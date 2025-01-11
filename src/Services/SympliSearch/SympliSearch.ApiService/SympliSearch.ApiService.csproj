@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SympliSearch.ServiceDefaults\SympliSearch.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\SympliSearch.Application\SympliSearch.Application.csproj" />
+    <ProjectReference Include="..\SympliSearch.Domain\SympliSearch.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

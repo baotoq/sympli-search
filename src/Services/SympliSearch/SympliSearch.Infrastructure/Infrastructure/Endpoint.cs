@@ -1,7 +1,10 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace SympliSearch.ApiService.Infrastructure;
+namespace SympliSearch.Infrastructure.Infrastructure;
 
 public interface IEndpoint
 {

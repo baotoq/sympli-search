@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using MediatR;
-using SympliSearch.ApiService.Infrastructure.Exceptions;
+using Microsoft.Extensions.Logging;
+using SympliSearch.Infrastructure.Infrastructure.Exceptions;
 
-namespace SympliSearch.ApiService.Infrastructure.Behaviour;
+namespace SympliSearch.Infrastructure.Infrastructure.Behaviour;
 
 [DebuggerStepThrough]
 public class UnhandledExceptionBehaviour<TRequest, TResponse>(ILoggerFactory logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

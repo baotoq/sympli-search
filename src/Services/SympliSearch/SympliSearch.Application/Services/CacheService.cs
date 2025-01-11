@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace SympliSearch.Infrastructure.Services;
+namespace SympliSearch.Application.Services;
 
 public interface ICacheService
 {

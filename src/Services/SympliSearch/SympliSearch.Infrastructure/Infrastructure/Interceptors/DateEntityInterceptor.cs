@@ -1,8 +1,8 @@
-using SympliSearch.ApiService.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using SympliSearch.ApiService.Domain.Common;
 
-namespace SympliSearch.ApiService.Infrastructure.Interceptors;
+namespace SympliSearch.Infrastructure.Infrastructure.Interceptors;
 
 public class DateEntityInterceptor : SaveChangesInterceptor
 {

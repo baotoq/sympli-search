@@ -1,6 +1,6 @@
-using SympliSearch.ApiService.Domain.Entities;
-using SympliSearch.ApiService.Infrastructure;
-using SympliSearch.ApiService.Services;
+using SympliSearch.Application;
+using SympliSearch.Domain.Entities;
+using SympliSearch.Infrastructure.Infrastructure;
 using SympliSearch.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,9 +27,6 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    // In development, create the blob container and queue if they don't exist.
-    var fileService = app.Services.GetRequiredService<IFileService>();
-    //await fileService.CreateContainerIfNotExistsAsync();
 }
 
 app.UseExceptionHandler();

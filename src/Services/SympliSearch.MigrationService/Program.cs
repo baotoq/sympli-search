@@ -1,12 +1,11 @@
 using MassTransit;
 using MassTransit.Transports;
-using SympliSearch.ApiService.Domain.Entities;
-using SympliSearch.ApiService.Infrastructure;
-using SympliSearch.ApiService.Services;
 using SympliSearch.MigrationService;
 using SympliSearch.ServiceDefaults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SympliSearch.Domain.Entities;
+using SympliSearch.Infrastructure.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +51,6 @@ builder.Services.AddMassTransit(s =>
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.AddAzureBlobClient("blobs");
-builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddSingleton<DbInitializer>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<DbInitializer>());
 builder.Services.AddHealthChecks()
@@ -64,12 +62,11 @@ if (app.Environment.IsDevelopment())
 {
     app.MapGet("/reset", async (ApplicationDbContext dbContext, IPublishEndpoint publishEndpoint,
         DbInitializer dbInitializer,
-        IFileService fileService,
         IHostEnvironment environment, UserManager<User> userManager, CancellationToken cancellationToken) =>
     {
         // Delete and recreate the database. This is useful for development scenarios to reset the database to its initial state.
         await dbContext.Database.EnsureDeletedAsync(cancellationToken);
-        await dbInitializer.InitializeDatabaseAsync(dbContext, publishEndpoint, fileService, environment, userManager, cancellationToken);
+        await dbInitializer.InitializeDatabaseAsync(dbContext, publishEndpoint, environment, userManager, cancellationToken);
 
         return Results.Ok("ok");
     });
