@@ -2,6 +2,7 @@
 using SearchService.Application.Common.Interfaces;
 using SearchService.Application.Features.Seo.Queries;
 using SearchService.Application.Services.Search;
+using SearchService.Infrastructure.Services;
 
 namespace SearchService.Tests.Application.Features;
 

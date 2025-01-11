@@ -25,6 +25,7 @@ using SearchService.Application.Services.Search;
 using SearchService.Infrastructure.Data;
 using SearchService.Infrastructure.Data.Interceptors;
 using SearchService.Infrastructure.Dispatcher;
+using SearchService.Infrastructure.Services;
 using StackExchange.Redis;
 using User = SearchService.Domain.Entities.User;
 
@@ -59,7 +60,7 @@ public static class AddInfrastructureDependencyInjection
 
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
-        builder.Services.AddScoped<SearchEngineFactory>();
+        builder.Services.AddScoped<ISearchEngineFactory, SearchEngineFactory>();
         builder.Services.AddTransient<GoogleSearchEngine>();
         builder.Services.AddTransient<BingSearchEngine>();
 

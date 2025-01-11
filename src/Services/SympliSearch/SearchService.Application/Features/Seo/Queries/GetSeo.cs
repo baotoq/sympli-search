@@ -17,6 +17,7 @@ using SearchService.Application.Common.Interfaces;
 using SearchService.Application.Features.Seo.DomainEvents;
 using SearchService.Application.Services.Search;
 using SearchService.Domain.Entities;
+using SearchService.Infrastructure.Services;
 
 namespace SearchService.Application.Features.Seo.Queries;
 

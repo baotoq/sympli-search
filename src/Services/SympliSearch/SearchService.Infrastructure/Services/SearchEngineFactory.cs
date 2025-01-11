@@ -1,13 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using SearchService.Application.Common.Interfaces;
+using SearchService.Application.Services.Search;
 
-namespace SearchService.Application.Services.Search;
-
-public enum SearchEngineType
-{
-    Google,
-    Bing
-}
+namespace SearchService.Infrastructure.Services;
 
 public class SearchEngineFactory: ISearchEngineFactory
 {
