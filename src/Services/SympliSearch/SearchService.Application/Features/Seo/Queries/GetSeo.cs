@@ -49,17 +49,20 @@ public class GetSeo : IEndpoint
         }
     }
 
-    public class Handler(IApplicationDbContext context, SearchManager searchManager) : IRequestHandler<Query, string>
+    public class Handler(IApplicationDbContext context, SearchEngineFactory searchEngineFactory) : IRequestHandler<Query, string>
     {
         public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await searchManager.SearchAsync(request.Keyword, request.Url, SearchEngineType.Google);
+
+            var searchEngine = searchEngineFactory.Create(request.SearchEngineType);
+
+            var results = await searchEngine.GetSearchResultsAsync(request.Keyword, request.Url);
 
             var searchHistory = new SearchHistory
             {
                 Keyword = request.Keyword,
                 Url = request.Url,
-                Positions = result.ToString(),
+                Positions = results.ToString(),
                 SearchByUserId = Guid.NewGuid()
             };
 
@@ -67,7 +70,7 @@ public class GetSeo : IEndpoint
             {
                 Keyword = request.Keyword,
                 Url = request.Url,
-                Positions = result.ToString(),
+                Positions = results.ToString(),
                 SearchByUserId = Guid.NewGuid()
             });
 

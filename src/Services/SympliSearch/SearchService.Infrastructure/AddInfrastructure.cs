@@ -67,7 +67,6 @@ public static class AddInfrastructureDependencyInjection
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
         builder.Services.AddTransient<ICacheService, CacheService>();
         builder.Services.AddScoped<SearchEngineFactory>();
-        builder.Services.AddScoped<SearchManager>();
         builder.Services.AddTransient<GoogleSearchEngine>();
         builder.Services.AddTransient<BingSearchEngine>();
 
