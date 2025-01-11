@@ -1,0 +1,34 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SympliSearch.Infrastructure.Infrastructure.Dispatcher;
+using SympliSearch.Infrastructure.Infrastructure.Interceptors;
+using SympliSearch.Infrastructure.Services;
+using SympliSearch.Infrastructure.Services.Search;
+
+namespace SympliSearch.Infrastructure.Infrastructure;
+
+public static class AddApplicationDependencyInjection
+{
+    public static void AddApplication(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
+        builder.Services.AddTransient<ICacheService, CacheService>();
+
+        builder.Services.AddScoped<SearchEngineFactory>();
+        builder.Services.AddScoped<SearchManager>();
+        builder.Services.AddTransient<GoogleSearchEngine>();
+        builder.Services.AddTransient<BingSearchEngine>();
+
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            // Password settings.
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 6;
+            options.User.RequireUniqueEmail = false;
+        });
+    }
+}
