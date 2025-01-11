@@ -49,11 +49,10 @@ public class GetSeo : IEndpoint
         }
     }
 
-    public class Handler(IApplicationDbContext context, SearchEngineFactory searchEngineFactory) : IRequestHandler<Query, string>
+    public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory) : IRequestHandler<Query, string>
     {
         public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
-
             var searchEngine = searchEngineFactory.Create(request.SearchEngineType);
 
             var results = await searchEngine.GetSearchResultsAsync(request.Keyword, request.Url);

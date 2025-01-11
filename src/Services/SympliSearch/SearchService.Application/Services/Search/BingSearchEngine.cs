@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using SearchService.Application.Common.Interfaces;
 
 namespace SearchService.Application.Services.Search;
 

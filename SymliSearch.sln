@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Application",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Infrastructure", "src\Services\SympliSearch\SearchService.Infrastructure\SearchService.Infrastructure.csproj", "{0F006ACC-8808-4516-81FB-DEFA61A64392}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Tests", "tests\SearchService.Tests\SearchService.Tests.csproj", "{6DD88277-A281-4BAE-B4D3-47327BCAF07F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,7 @@ Global
 		{76A7ABA0-E10A-46B0-B815-7AD0B34AE5F6} = {93D68091-3519-4744-8FE8-715CF82E30D0}
 		{56A974BD-0A98-40B8-8A8E-FE5EDB65FCD6} = {93D68091-3519-4744-8FE8-715CF82E30D0}
 		{0F006ACC-8808-4516-81FB-DEFA61A64392} = {93D68091-3519-4744-8FE8-715CF82E30D0}
+		{6DD88277-A281-4BAE-B4D3-47327BCAF07F} = {96D7520B-ACFC-4B1F-B7D8-65A0E65FCEF0}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2BCCA41F-C0B1-49C9-8CCE-AA3B4E3FFA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -74,5 +77,9 @@ Global
 		{0F006ACC-8808-4516-81FB-DEFA61A64392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F006ACC-8808-4516-81FB-DEFA61A64392}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F006ACC-8808-4516-81FB-DEFA61A64392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD88277-A281-4BAE-B4D3-47327BCAF07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD88277-A281-4BAE-B4D3-47327BCAF07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD88277-A281-4BAE-B4D3-47327BCAF07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD88277-A281-4BAE-B4D3-47327BCAF07F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
