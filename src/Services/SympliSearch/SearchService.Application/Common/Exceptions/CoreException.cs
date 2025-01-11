@@ -1,4 +1,4 @@
-namespace SearchService.Infrastructure.Exceptions;
+namespace SearchService.Application.Common.Exceptions;
 
 public class CoreException : Exception
 {

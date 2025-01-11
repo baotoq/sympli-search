@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using SearchService.Infrastructure.Exceptions;
+using SearchService.Application.Common.Exceptions;
 
-namespace SearchService.Infrastructure.Behaviour;
+namespace SearchService.Application.Common.Behaviour;
 
 [DebuggerStepThrough]
 public class UnhandledExceptionBehaviour<TRequest, TResponse>(ILoggerFactory logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

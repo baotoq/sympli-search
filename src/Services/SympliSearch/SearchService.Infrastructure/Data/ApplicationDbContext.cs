@@ -5,7 +5,7 @@ using SearchService.Domain.Entities;
 using Role = SearchService.Domain.Entities.Role;
 using User = SearchService.Domain.Entities.User;
 
-namespace SearchService.Infrastructure;
+namespace SearchService.Infrastructure.Data;
 
 public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {

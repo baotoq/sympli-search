@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace SearchService.Infrastructure.Exceptions;
+namespace SearchService.Application.Common.Exceptions;
 
 [Serializable]
 public class InvalidValidationException : Exception

@@ -1,8 +1,8 @@
 using MassTransit;
+using SearchService.Application.Common.Interfaces;
 using SearchService.Domain.Events;
-using SearchService.Infrastructure.Dispatcher;
 
-namespace SearchService.Application.Dispatcher;
+namespace SearchService.Infrastructure.Dispatcher;
 
 public class MassTransitDomainEventDispatcher : IDomainEventDispatcher
 {

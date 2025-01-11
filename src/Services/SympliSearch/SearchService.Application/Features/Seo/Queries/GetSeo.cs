@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
+using SearchService.Application.Common;
 
 namespace SearchService.Application.Features.Seo.Queries;
 

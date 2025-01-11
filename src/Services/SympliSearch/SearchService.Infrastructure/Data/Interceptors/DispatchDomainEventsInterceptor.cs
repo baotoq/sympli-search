@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using SearchService.Application.Common.Interfaces;
 using SearchService.Domain.Common;
-using SearchService.Infrastructure.Dispatcher;
 
-namespace SearchService.Infrastructure.Interceptors;
+namespace SearchService.Infrastructure.Data.Interceptors;
 
 public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {

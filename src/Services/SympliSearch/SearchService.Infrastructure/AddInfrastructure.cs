@@ -4,6 +4,7 @@ using Ardalis.GuardClauses;
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -13,9 +14,13 @@ using Microsoft.Extensions.Logging;
 using RedLockNet;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
-using SearchService.Infrastructure.Behaviour;
-using SearchService.Infrastructure.Exceptions;
-using SearchService.Infrastructure.Interceptors;
+using SearchService.Application.Common.Exceptions;
+using SearchService.Application.Common.Interfaces;
+using SearchService.Application.Services;
+using SearchService.Application.Services.Search;
+using SearchService.Infrastructure.Data;
+using SearchService.Infrastructure.Data.Interceptors;
+using SearchService.Infrastructure.Dispatcher;
 using StackExchange.Redis;
 using User = SearchService.Domain.Entities.User;
 
@@ -38,15 +43,6 @@ public static class AddInfrastructureDependencyInjection
         builder.Services.AddExceptionHandler<InvalidValidationExceptionHandler>();
         builder.Services.AddHttpContextAccessor();
 
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-        });
-        builder.Services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
-
         builder.AddEfCore();
         builder.AddMassTransit(Assembly.GetCallingAssembly());
 
@@ -55,6 +51,24 @@ public static class AddInfrastructureDependencyInjection
         builder.AddRedLock();
 
         builder.AddAuthorization();
+
+        builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
+        builder.Services.AddTransient<ICacheService, CacheService>();
+        builder.Services.AddScoped<SearchEngineFactory>();
+        builder.Services.AddScoped<SearchManager>();
+        builder.Services.AddTransient<GoogleSearchEngine>();
+        builder.Services.AddTransient<BingSearchEngine>();
+
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            // Password settings.
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 6;
+            options.User.RequireUniqueEmail = false;
+        });
     }
 
     private static void AddRedLock(this IHostApplicationBuilder builder)

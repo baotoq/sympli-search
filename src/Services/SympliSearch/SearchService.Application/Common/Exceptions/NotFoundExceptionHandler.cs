@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SearchService.Infrastructure.Exceptions;
+namespace SearchService.Application.Common.Exceptions;
 
 public class NotFoundExceptionHandler : IExceptionHandler
 {

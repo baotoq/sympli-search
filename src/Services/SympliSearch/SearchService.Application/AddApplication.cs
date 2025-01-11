@@ -1,10 +1,13 @@
+using System.Reflection;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SearchService.Application.Dispatcher;
+using SearchService.Application.Common;
+using SearchService.Application.Common.Behaviour;
 using SearchService.Application.Services;
 using SearchService.Application.Services.Search;
-using SearchService.Infrastructure.Dispatcher;
 
 namespace SearchService.Application;
 
@@ -12,25 +15,16 @@ public static class AddApplicationDependencyInjection
 {
     public static void AddApplication(this IHostApplicationBuilder builder)
     {
-        builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
-        builder.Services.AddTransient<ICacheService, CacheService>();
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+        });
 
-        builder.Services.AddScoped<SearchEngineFactory>();
-        builder.Services.AddScoped<SearchManager>();
-        builder.Services.AddTransient<GoogleSearchEngine>();
-        builder.Services.AddTransient<BingSearchEngine>();
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
 
         builder.Services.AddEndpoints();
-
-        builder.Services.Configure<IdentityOptions>(options =>
-        {
-            // Password settings.
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequiredLength = 6;
-            options.User.RequireUniqueEmail = false;
-        });
     }
 }

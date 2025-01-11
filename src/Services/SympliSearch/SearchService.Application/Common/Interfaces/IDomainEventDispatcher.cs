@@ -1,6 +1,6 @@
 using SearchService.Domain.Events;
 
-namespace SearchService.Infrastructure.Dispatcher;
+namespace SearchService.Application.Common.Interfaces;
 
 public interface IDomainEventDispatcher
 {

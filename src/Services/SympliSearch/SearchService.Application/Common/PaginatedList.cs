@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SearchService.Infrastructure.Common;
+namespace SearchService.Application.Common;
 
 public class PaginatedList<T>
 {

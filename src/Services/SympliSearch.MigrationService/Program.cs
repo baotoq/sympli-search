@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SearchService.Domain.Entities;
 using SearchService.Infrastructure;
+using SearchService.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

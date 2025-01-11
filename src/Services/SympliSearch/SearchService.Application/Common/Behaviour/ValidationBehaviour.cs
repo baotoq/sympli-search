@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using FluentValidation;
 using MediatR;
-using SearchService.Infrastructure.Exceptions;
+using SearchService.Application.Common.Exceptions;
 
-namespace SearchService.Infrastructure.Behaviour;
+namespace SearchService.Application.Common.Behaviour;
 
 [DebuggerStepThrough]
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull

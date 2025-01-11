@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SearchService.Infrastructure;
+using SearchService.Infrastructure.Data;
 
 #nullable disable
 
 namespace SympliSearch.MigrationService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250111160118_Initial")]
+    [Migration("20250111161810_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

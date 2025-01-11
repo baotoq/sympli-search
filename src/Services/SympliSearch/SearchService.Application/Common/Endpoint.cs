@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace SearchService.Application;
+namespace SearchService.Application.Common;
 
 public interface IEndpoint
 {
