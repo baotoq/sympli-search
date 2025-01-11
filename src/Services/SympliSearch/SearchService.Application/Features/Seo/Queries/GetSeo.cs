@@ -1,11 +1,10 @@
-using System.IO.Compression;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
 
-namespace SympliSearch.Application.Features.Seo.Queries;
+namespace SearchService.Application.Features.Seo.Queries;
 
 public class GetSeo : IEndpoint
 {

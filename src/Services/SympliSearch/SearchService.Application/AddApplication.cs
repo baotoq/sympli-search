@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SearchService.Application.Dispatcher;
-using SympliSearch.Application.Services;
-using SympliSearch.Application.Services.Search;
+using SearchService.Application.Services;
+using SearchService.Application.Services.Search;
 using SearchService.Infrastructure.Dispatcher;
 
-namespace SympliSearch.Application;
+namespace SearchService.Application;
 
 public static class AddApplicationDependencyInjection
 {

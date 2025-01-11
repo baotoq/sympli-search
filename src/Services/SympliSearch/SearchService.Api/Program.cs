@@ -1,4 +1,4 @@
-using SympliSearch.Application;
+using SearchService.Application;
 using SearchService.Domain.Entities;
 using SearchService.Infrastructure;
 using SympliSearch.ServiceDefaults;

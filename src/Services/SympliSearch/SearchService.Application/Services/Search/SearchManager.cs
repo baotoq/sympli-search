@@ -1,4 +1,4 @@
-namespace SympliSearch.Application.Services.Search;
+namespace SearchService.Application.Services.Search;
 
 public class SearchManager
 {

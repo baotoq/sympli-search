@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace SympliSearch.Application.Services;
+namespace SearchService.Application.Services;
 
 public static class QueryableExtensions
 {
