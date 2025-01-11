@@ -5,7 +5,7 @@ using SympliSearch.Domain.Entities;
 using Role = SympliSearch.Domain.Entities.Role;
 using User = SympliSearch.Domain.Entities.User;
 
-namespace SympliSearch.Infrastructure.Infrastructure;
+namespace SympliSearch.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {
@@ -27,6 +27,11 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
             entity.Property(e => e.Keyword).IsRequired().HasMaxLength(255);
             entity.Property(e => e.Url).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Positions).IsRequired();
+            entity
+                .HasOne(e => e.SearchByUser)
+                .WithOne()
+                .HasForeignKey<SearchHistory>(e => e.SearchByUserId)
+                .IsRequired();
         });
 
         modelBuilder.AddTransactionalOutboxEntities();

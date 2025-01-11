@@ -1,4 +1,4 @@
-using SympliSearch.ApiService.Domain.Common;
+using SympliSearch.Domain.Common;
 
 namespace SympliSearch.Domain.Entities;
 
@@ -14,6 +14,9 @@ public class SearchHistory : IDateEntity
     public string Keyword { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string Positions { get; set; } = string.Empty;
+
+    public required Guid SearchByUserId { get; set; }
+    public required User SearchByUser { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }

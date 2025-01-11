@@ -2,7 +2,7 @@ using System.Diagnostics;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Behaviour;
+namespace SympliSearch.Infrastructure.Behaviour;
 
 [DebuggerStepThrough]
 public class LoggingBehaviour<TRequest>(ILoggerFactory logger) : IRequestPreProcessor<TRequest>

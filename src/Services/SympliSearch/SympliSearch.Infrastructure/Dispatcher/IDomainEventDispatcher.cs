@@ -1,6 +1,6 @@
 using SympliSearch.Domain.Events;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Dispatcher;
+namespace SympliSearch.Infrastructure.Dispatcher;
 
 public interface IDomainEventDispatcher
 {

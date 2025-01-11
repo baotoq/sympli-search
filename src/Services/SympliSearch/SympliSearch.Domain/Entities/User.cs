@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SympliSearch.ApiService.Domain.Common;
+using SympliSearch.Domain.Common;
 
 namespace SympliSearch.Domain.Entities;
 

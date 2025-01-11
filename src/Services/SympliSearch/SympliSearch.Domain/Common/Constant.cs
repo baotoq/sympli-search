@@ -1,4 +1,4 @@
-namespace SympliSearch.ApiService.Domain.Common;
+namespace SympliSearch.Domain.Common;
 
 public static class Constant
 {

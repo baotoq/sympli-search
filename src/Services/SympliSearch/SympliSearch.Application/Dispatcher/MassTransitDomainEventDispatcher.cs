@@ -1,7 +1,8 @@
 using MassTransit;
 using SympliSearch.Domain.Events;
+using SympliSearch.Infrastructure.Dispatcher;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Dispatcher;
+namespace SympliSearch.Application.Dispatcher;
 
 public class MassTransitDomainEventDispatcher : IDomainEventDispatcher
 {

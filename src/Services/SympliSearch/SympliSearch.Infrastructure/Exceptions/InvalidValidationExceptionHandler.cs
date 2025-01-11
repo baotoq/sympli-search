@@ -1,39 +1,40 @@
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Exceptions;
+namespace SympliSearch.Infrastructure.Exceptions;
 
-public class NotFoundExceptionHandler : IExceptionHandler
+public class InvalidValidationExceptionHandler : IExceptionHandler
 {
     private readonly IProblemDetailsService _problemDetailsService;
 
-    public NotFoundExceptionHandler(IProblemDetailsService problemDetailsService)
+    public InvalidValidationExceptionHandler(IProblemDetailsService problemDetailsService)
     {
         _problemDetailsService = problemDetailsService;
     }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not NotFoundException notFoundException)
+        if (exception is not InvalidValidationException validationException)
         {
             return false;
         }
 
-        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
         var problemDetails = new ValidationProblemDetails
         {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-            Status = StatusCodes.Status404NotFound,
-            Title = notFoundException.Message
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Status = StatusCodes.Status400BadRequest,
+            Title = exception.Message,
+            Errors = validationException.Errors,
         };
 
         await _problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             HttpContext = httpContext,
-            ProblemDetails = problemDetails
+            ProblemDetails = problemDetails,
+            Exception = validationException,
         });
 
         return true;

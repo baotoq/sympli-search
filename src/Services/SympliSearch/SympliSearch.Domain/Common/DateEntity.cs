@@ -1,4 +1,4 @@
-namespace SympliSearch.ApiService.Domain.Common;
+namespace SympliSearch.Domain.Common;
 
 public abstract class DateEntity : IDateEntity
 {

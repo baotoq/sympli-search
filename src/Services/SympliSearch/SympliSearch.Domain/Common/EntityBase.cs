@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using SympliSearch.ApiService.Domain.Common;
 using SympliSearch.Domain.Events;
 
 namespace SympliSearch.Domain.Common;

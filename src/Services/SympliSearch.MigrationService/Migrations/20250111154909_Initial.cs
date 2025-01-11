@@ -93,22 +93,6 @@ namespace SympliSearch.MigrationService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "search_history",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    keyword = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    url = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    positions = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_search_history", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -209,6 +193,29 @@ namespace SympliSearch.MigrationService.Migrations
                     table.ForeignKey(
                         name: "fk_asp_net_user_tokens_asp_net_users_user_id",
                         column: x => x.user_id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "search_history",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    keyword = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    url = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    positions = table.Column<string>(type: "text", nullable: false),
+                    search_by_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_search_history", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_search_history_asp_net_users_search_by_user_id",
+                        column: x => x.search_by_user_id,
                         principalTable: "AspNetUsers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -324,6 +331,12 @@ namespace SympliSearch.MigrationService.Migrations
                 name: "ix_outbox_state_created",
                 table: "outbox_state",
                 column: "created");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_search_history_search_by_user_id",
+                table: "search_history",
+                column: "search_by_user_id",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -354,13 +367,13 @@ namespace SympliSearch.MigrationService.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "inbox_state");
 
             migrationBuilder.DropTable(
                 name: "outbox_state");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

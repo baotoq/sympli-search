@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Common;
+namespace SympliSearch.Infrastructure.Common;
 
 public class PaginatedList<T>
 {

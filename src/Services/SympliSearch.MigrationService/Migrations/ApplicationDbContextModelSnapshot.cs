@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SympliSearch.Infrastructure.Infrastructure;
+using SympliSearch.Infrastructure;
 
 #nullable disable
 
@@ -424,6 +424,10 @@ namespace SympliSearch.MigrationService.Migrations
                         .HasColumnType("text")
                         .HasColumnName("positions");
 
+                    b.Property<Guid>("SearchByUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("search_by_user_id");
+
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
@@ -436,6 +440,10 @@ namespace SympliSearch.MigrationService.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_search_history");
+
+                    b.HasIndex("SearchByUserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_search_history_search_by_user_id");
 
                     b.ToTable("search_history", (string)null);
                 });
@@ -598,6 +606,18 @@ namespace SympliSearch.MigrationService.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
+                });
+
+            modelBuilder.Entity("SympliSearch.Domain.Entities.SearchHistory", b =>
+                {
+                    b.HasOne("SympliSearch.Domain.Entities.User", "SearchByUser")
+                        .WithOne()
+                        .HasForeignKey("SympliSearch.Domain.Entities.SearchHistory", "SearchByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_search_history_asp_net_users_search_by_user_id");
+
+                    b.Navigation("SearchByUser");
                 });
 #pragma warning restore 612, 618
         }

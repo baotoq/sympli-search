@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SympliSearch.Domain.Common;
-using SympliSearch.Infrastructure.Infrastructure.Dispatcher;
+using SympliSearch.Infrastructure.Dispatcher;
 
-namespace SympliSearch.Infrastructure.Infrastructure.Interceptors;
+namespace SympliSearch.Infrastructure.Interceptors;
 
 public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {

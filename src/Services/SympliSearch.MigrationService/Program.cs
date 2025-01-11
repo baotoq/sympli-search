@@ -5,7 +5,7 @@ using SympliSearch.ServiceDefaults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SympliSearch.Domain.Entities;
-using SympliSearch.Infrastructure.Infrastructure;
+using SympliSearch.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

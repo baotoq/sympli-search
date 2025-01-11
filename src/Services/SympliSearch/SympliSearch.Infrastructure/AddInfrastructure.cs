@@ -14,12 +14,12 @@ using RedLockNet;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
-using SympliSearch.Infrastructure.Infrastructure.Behaviour;
-using SympliSearch.Infrastructure.Infrastructure.Exceptions;
-using SympliSearch.Infrastructure.Infrastructure.Interceptors;
+using SympliSearch.Infrastructure.Behaviour;
+using SympliSearch.Infrastructure.Exceptions;
+using SympliSearch.Infrastructure.Interceptors;
 using User = SympliSearch.Domain.Entities.User;
 
-namespace SympliSearch.Infrastructure.Infrastructure;
+namespace SympliSearch.Infrastructure;
 
 public static class AddInfrastructureDependencyInjection
 {

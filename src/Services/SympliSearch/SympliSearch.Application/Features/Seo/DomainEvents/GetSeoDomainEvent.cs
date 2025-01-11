@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using RedLockNet;
 using SympliSearch.Domain.Events;
 
-namespace SympliSearch.ApiService.Features.DomainEvents;
+namespace SympliSearch.Application.Features.Seo.DomainEvents;
 
-public class GetSeoDomainEvent : IDomainEvent
+public record GetSeoDomainEvent : DomainEventBase
 {
 }
 

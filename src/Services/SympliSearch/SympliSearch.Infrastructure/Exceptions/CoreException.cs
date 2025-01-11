@@ -1,4 +1,4 @@
-namespace SympliSearch.Infrastructure.Infrastructure.Exceptions;
+namespace SympliSearch.Infrastructure.Exceptions;
 
 public class CoreException : Exception
 {

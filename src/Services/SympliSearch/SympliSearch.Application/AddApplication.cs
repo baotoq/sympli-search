@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SympliSearch.Application.Dispatcher;
 using SympliSearch.Application.Services;
 using SympliSearch.Application.Services.Search;
-using SympliSearch.Infrastructure.Infrastructure;
-using SympliSearch.Infrastructure.Infrastructure.Dispatcher;
+using SympliSearch.Infrastructure.Dispatcher;
 
 namespace SympliSearch.Application;
 

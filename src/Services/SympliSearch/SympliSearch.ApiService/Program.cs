@@ -1,6 +1,6 @@
 using SympliSearch.Application;
 using SympliSearch.Domain.Entities;
-using SympliSearch.Infrastructure.Infrastructure;
+using SympliSearch.Infrastructure;
 using SympliSearch.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);

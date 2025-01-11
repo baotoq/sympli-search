@@ -1,13 +1,12 @@
 using System.Diagnostics;
 using MassTransit;
-using SympliSearch.ApiService.Features.DomainEvents;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using OpenTelemetry.Trace;
 using SympliSearch.Domain.Entities;
-using SympliSearch.Infrastructure.Infrastructure;
+using SympliSearch.Infrastructure;
 
 namespace SympliSearch.MigrationService;
 
