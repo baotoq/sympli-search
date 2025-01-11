@@ -34,7 +34,7 @@ var migrationService = builder.AddProject<Projects.SympliSearch_MigrationService
     .WithReference(rabbitmq).WaitFor(rabbitmq)
     .WithHttpHealthCheck("/health");
 
-var apiService = builder.AddProject<Projects.SympliSearch_ApiService>("apiservice")
+var searchService = builder.AddProject<Projects.SearchService_Api>("searchservice")
     .WithReference(cache)
     .WithReference(rabbitmq).WaitFor(rabbitmq)
     .WithReference(db).WaitFor(db)
@@ -42,7 +42,7 @@ var apiService = builder.AddProject<Projects.SympliSearch_ApiService>("apiservic
 
 builder.AddProject<Projects.SympliSearch_Web>("webfrontend")
     .WithExternalHttpEndpoints()
-    .WithReference(apiService)
-    .WaitFor(apiService);
+    .WithReference(searchService)
+    .WaitFor(searchService);
 
 builder.Build().Run();

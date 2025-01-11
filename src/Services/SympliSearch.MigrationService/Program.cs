@@ -4,8 +4,8 @@ using SympliSearch.MigrationService;
 using SympliSearch.ServiceDefaults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SympliSearch.Domain.Entities;
-using SympliSearch.Infrastructure;
+using SearchService.Domain.Entities;
+using SearchService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

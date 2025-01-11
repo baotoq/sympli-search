@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using OpenTelemetry.Trace;
-using SympliSearch.Domain.Entities;
-using SympliSearch.Infrastructure;
+using SearchService.Domain.Entities;
+using SearchService.Infrastructure;
 
 namespace SympliSearch.MigrationService;
 

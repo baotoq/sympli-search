@@ -16,13 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.MigrationServi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SympliSearch", "SympliSearch", "{93D68091-3519-4744-8FE8-715CF82E30D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.ApiService", "src\Services\SympliSearch\SympliSearch.ApiService\SympliSearch.ApiService.csproj", "{2AFFC807-750D-40AC-B12B-6AFE05123D7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Api", "src\Services\SympliSearch\SearchService.Api\SearchService.Api.csproj", "{2AFFC807-750D-40AC-B12B-6AFE05123D7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.Domain", "src\Services\SympliSearch\SympliSearch.Domain\SympliSearch.Domain.csproj", "{76A7ABA0-E10A-46B0-B815-7AD0B34AE5F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Domain", "src\Services\SympliSearch\SearchService.Domain\SearchService.Domain.csproj", "{76A7ABA0-E10A-46B0-B815-7AD0B34AE5F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.Application", "src\Services\SympliSearch\SympliSearch.Application\SympliSearch.Application.csproj", "{56A974BD-0A98-40B8-8A8E-FE5EDB65FCD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Application", "src\Services\SympliSearch\SearchService.Application\SearchService.Application.csproj", "{56A974BD-0A98-40B8-8A8E-FE5EDB65FCD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SympliSearch.Infrastructure", "src\Services\SympliSearch\SympliSearch.Infrastructure\SympliSearch.Infrastructure.csproj", "{0F006ACC-8808-4516-81FB-DEFA61A64392}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService.Infrastructure", "src\Services\SympliSearch\SearchService.Infrastructure\SearchService.Infrastructure.csproj", "{0F006ACC-8808-4516-81FB-DEFA61A64392}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
