@@ -19,7 +19,9 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
+#pragma warning disable EXTEXP0018
 builder.AddInfrastructure();
+#pragma warning restore EXTEXP0018
 builder.AddApplication();
 
 var app = builder.Build();

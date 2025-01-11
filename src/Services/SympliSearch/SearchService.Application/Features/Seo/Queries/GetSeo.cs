@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using SearchService.Application.Common;
@@ -20,22 +21,29 @@ public class GetSeo : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder builder)
     {
-        builder.MapGet("/api/seo/{searchEngineType}",
+        builder.MapGet(
+            "/api/seo/{searchEngineType}",
             [OutputCache(Duration = 3600, VaryByRouteValueNames = ["keyword", "url"])]
-            async ([FromQuery] string keyword, [FromQuery] string url, [FromRoute] SearchEngineType searchEngineType, IMediator mediator, CancellationToken cancellationToken)
+            [EnableRateLimiting("default")]
+            async (
+                    [FromQuery] string keyword,
+                    [FromQuery] string url,
+                    [FromRoute] SearchEngineType searchEngineType,
+                    IMediator mediator,
+                    CancellationToken cancellationToken
+                )
                 => TypedResults.Ok(await mediator.Send(new Query
                 {
                     Keyword = keyword,
                     Url = url,
                     SearchEngineType = searchEngineType
-                }, cancellationToken)))
-            .RequireRateLimiting("fixed");
+                }, cancellationToken)));
     }
 
     public record Query : IRequest<string>
     {
-        public string Keyword { get; init; }
-        public string Url { get; init; }
+        public required string Keyword { get; init; }
+        public required string Url { get; init; }
         public SearchEngineType SearchEngineType { get; set; }
     }
 

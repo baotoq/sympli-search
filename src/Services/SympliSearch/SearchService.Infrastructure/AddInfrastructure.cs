@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading.RateLimiting;
 using Ardalis.GuardClauses;
@@ -34,7 +35,7 @@ public static class AddInfrastructureDependencyInjection
     public static void AddInfrastructure(this IHostApplicationBuilder builder)
     {
         builder.Services.AddRateLimiter(_ => _
-            .AddFixedWindowLimiter(policyName: "fixed", options =>
+            .AddFixedWindowLimiter(policyName: "default", options =>
             {
                 options.PermitLimit = 4;
                 options.Window = TimeSpan.FromSeconds(12);
@@ -59,13 +60,15 @@ public static class AddInfrastructureDependencyInjection
 
         builder.AddRedisDistributedCache("redis");
         builder.AddRedisOutputCache("redis");
+#pragma warning disable EXTEXP0018
+        builder.Services.AddHybridCache();
+#pragma warning restore EXTEXP0018
         builder.AddRedLock();
 
         builder.AddAuthorization();
 
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
-        builder.Services.AddTransient<ICacheService, CacheService>();
         builder.Services.AddScoped<SearchEngineFactory>();
         builder.Services.AddTransient<GoogleSearchEngine>();
         builder.Services.AddTransient<BingSearchEngine>();
