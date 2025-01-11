@@ -1,4 +1,7 @@
 # simpli-search
+| Project|Tests|
+|-|-|
+|SearchService|![Test Result](https://github.com/baotoq/sympli-search/actions/workflows/dotnet-test.yml/badge.svg)|
 
 ## Technical stack
 
