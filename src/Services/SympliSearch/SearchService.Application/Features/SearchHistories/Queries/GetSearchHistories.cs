@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ public class GetSearchHistories : IEndpoint
             "/api/search-histories",
             [OutputCache(Duration = 15, VaryByRouteValueNames = ["keyword", "url"])]
             [EnableRateLimiting("default")]
+            [Authorize]
             async (
                     [FromQuery] int? pageNumber,
                     [FromQuery] int? pageSize,

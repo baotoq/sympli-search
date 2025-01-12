@@ -2,6 +2,7 @@ using System.Net.Mime;
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ public class GetSeo : IEndpoint
             "/api/seo",
             [OutputCache(Duration = 3600, VaryByQueryKeys = ["keyword", "url", "searchEngineType"])]
             [EnableRateLimiting("default")]
+            [Authorize]
             async (
                     [FromQuery] string? keyword,
                     [FromQuery] string? url,
