@@ -8,12 +8,14 @@ import {
   ShowButton,
   useTable,
 } from "@refinedev/antd";
-import type { BaseRecord, useCustom } from "@refinedev/core";
+import { useInvalidate, type BaseRecord, type useCustom } from "@refinedev/core";
 
 import { Space, Table, Form, Input, Button, Select } from "antd";
 import { useState } from "react";
 
 export default function SearchList() {
+  const invalidate = useInvalidate();
+
   const { tableProps } = useTable({
     syncWithLocation: true,
   });
@@ -45,6 +47,12 @@ export default function SearchList() {
       const data = await response.json();
 
       console.log(data);
+
+      invalidate({
+        resource: "search-histories",
+        invalidates: ["list"],
+      });
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -72,10 +80,9 @@ export default function SearchList() {
       <div className="mt-5"></div>
       <List>
         <Table {...tableProps} rowKey="id">
-          <Table.Column dataIndex="id" title={"Id"} />
-          <Table.Column dataIndex="name" title={"Name"} />
-          <Table.Column dataIndex="price" title={"Price"} />
-          <Table.Column dataIndex="remainingStock" title={"Remaining Stock"} />
+          <Table.Column dataIndex="keyword" title={"Keyword"} />
+          <Table.Column dataIndex="url" title={"Url"} />
+          <Table.Column dataIndex="positions" title={"Positions"} />
           <Table.Column
             title={"Actions"}
             dataIndex="actions"

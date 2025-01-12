@@ -44,7 +44,7 @@ public class GetSeo : IEndpoint
                 }, cancellationToken)));
     }
 
-    public record Query : IRequest<string>
+    public record Query : IRequest<Response>
     {
         public required string Keyword { get; init; }
         public required string Url { get; init; }
@@ -61,12 +61,17 @@ public class GetSeo : IEndpoint
         }
     }
 
-    public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory) : IRequestHandler<Query, string>
+    public record Response
+    {
+        public List<int> Positions { get; init; }
+    }
+
+    public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory) : IRequestHandler<Query, Response>
     {
         private static readonly AsyncCircuitBreakerPolicy s_circuitBreaker
             = Policy.Handle<Exception>().CircuitBreakerAsync(3, TimeSpan.FromMinutes(1));
 
-        public async Task<string> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             if (s_circuitBreaker.CircuitState == CircuitState.Open)
             {
@@ -99,7 +104,10 @@ public class GetSeo : IEndpoint
 
             await context.SaveChangesAsync(cancellationToken);
 
-            return request.Url;
+            return new Response
+            {
+                Positions = results
+            };
         }
     }
 }
