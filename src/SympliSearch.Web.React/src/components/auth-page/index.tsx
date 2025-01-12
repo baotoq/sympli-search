@@ -8,7 +8,7 @@ export const AuthPage = (props: AuthPageProps) => {
       {...props}
       formProps={{
         initialValues: {
-          email: "admin@micro-commerce.com",
+          email: "admin@sympli.com",
           password: "P@ssw0rd",
         },
       }}

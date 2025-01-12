@@ -1,3 +1,3 @@
 "use client";
 
-export * from "./products";
+export * from "./search-histories";

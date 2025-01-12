@@ -199,7 +199,7 @@ namespace SympliSearch.MigrationService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "search_history",
+                name: "search_histories",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -212,9 +212,9 @@ namespace SympliSearch.MigrationService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_search_history", x => x.id);
+                    table.PrimaryKey("pk_search_histories", x => x.id);
                     table.ForeignKey(
-                        name: "fk_search_history_asp_net_users_search_by_user_id",
+                        name: "fk_search_histories_users_search_by_user_id",
                         column: x => x.search_by_user_id,
                         principalTable: "AspNetUsers",
                         principalColumn: "id",
@@ -333,8 +333,8 @@ namespace SympliSearch.MigrationService.Migrations
                 column: "created");
 
             migrationBuilder.CreateIndex(
-                name: "ix_search_history_search_by_user_id",
-                table: "search_history",
+                name: "ix_search_histories_search_by_user_id",
+                table: "search_histories",
                 column: "search_by_user_id",
                 unique: true);
         }
@@ -361,7 +361,7 @@ namespace SympliSearch.MigrationService.Migrations
                 name: "outbox_message");
 
             migrationBuilder.DropTable(
-                name: "search_history");
+                name: "search_histories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

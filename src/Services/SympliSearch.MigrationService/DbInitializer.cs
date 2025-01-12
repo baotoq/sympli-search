@@ -51,6 +51,18 @@ public class DbInitializer(IServiceProvider serviceProvider, ILogger<DbInitializ
 
     private static async Task SeedDataAsync(ApplicationDbContext context, IHostEnvironment environment, UserManager<User> userManager, CancellationToken cancellationToken)
     {
+        if (!context.Users.Any())
+        {
+            var result = await userManager.CreateAsync(new User
+            {
+                UserName = "admin@sympli.com",
+                Email = "admin@sympli.com",
+                EmailConfirmed = true
+            }, "P@ssw0rd");
+
+            var error = result.Errors;
+        }
+
         await context.SaveChangesAsync(cancellationToken);
     }
 }

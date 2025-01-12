@@ -40,9 +40,4 @@ var searchService = builder.AddProject<Projects.SearchService_Api>("searchservic
     .WithReference(db).WaitFor(db)
     .WithHttpHealthCheck("/health");
 
-builder.AddProject<Projects.SympliSearch_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
-    .WithReference(searchService)
-    .WaitFor(searchService);
-
 builder.Build().Run();

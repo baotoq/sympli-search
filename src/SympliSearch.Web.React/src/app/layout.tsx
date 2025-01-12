@@ -11,7 +11,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ColorModeContextProvider } from "@contexts/color-mode";
 
 import { authProvider } from "@providers/auth-provider";
-import { productDataProvider } from "@providers/data-provider";
+import { searchHistoriesDataProvider } from "@providers/data-provider";
 
 import "@refinedev/antd/dist/reset.css";
 
@@ -43,21 +43,18 @@ export default function RootLayout({
                   <Refine
                     routerProvider={routerProvider}
                     dataProvider={{
-                      default: productDataProvider,
-                      products: productDataProvider,
+                      default: searchHistoriesDataProvider,
+                      searchHistories: searchHistoriesDataProvider,
                     }}
                     notificationProvider={useNotificationProvider}
                     authProvider={authProvider}
                     resources={[
                       {
-                        name: "products",
-                        list: "/products",
-                        create: "/products/create",
-                        edit: "/products/edit/:id",
-                        show: "/products/show/:id",
+                        name: "search-histories",
+                        list: "/sympli-search",
                         meta: {
                           canDelete: true,
-                          dataProviderName: "products"
+                          dataProviderName: "searchHistories"
                         },
                       },
                     ]}

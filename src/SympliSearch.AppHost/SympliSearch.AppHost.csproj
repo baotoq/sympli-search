@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Services\SympliSearch.MigrationService\SympliSearch.MigrationService.csproj" />
     <ProjectReference Include="..\Services\SympliSearch\SearchService.Api\SearchService.Api.csproj" />
-    <ProjectReference Include="..\SympliSearch.Web\SympliSearch.Web.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

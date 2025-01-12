@@ -2,7 +2,7 @@
 
 import type { AuthProvider } from "@refinedev/core";
 
-const API_URL = "https://localhost:7477";
+const API_URL = "http://localhost:5413";
 
 export const authProvider: AuthProvider = {
   login: async ({ email, username, password, remember }) => {
@@ -57,23 +57,38 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => {
     const auth = localStorage.getItem("token");
     if (auth) {
-      const parsedUser = JSON.parse(auth);
-      return parsedUser.roles;
+      return ["admin"];
     }
     return null;
   },
   getIdentity: async () => {
     const auth = localStorage.getItem("token");
     if (auth) {
-      const parsedUser = JSON.parse(auth);
-      return parsedUser;
+      const response = await fetch(`${API_URL}/manage/info`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+
+      const { email } = await response.json();
+
+      return {
+        name: email,
+        email: email,
+        roles: ["admin"],
+        avatar: "https://i.pravatar.cc/150?img=1",
+      };
     }
     return null;
   },
   onError: async (error) => {
-    if (error.response?.status === 401) {
+    if (error.status === 401 || error.status === 403) {
       return {
         logout: true,
+        redirectTo: "/login",
+        error,
       };
     }
 

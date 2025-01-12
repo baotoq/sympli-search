@@ -439,13 +439,13 @@ namespace SympliSearch.MigrationService.Migrations
                         .HasColumnName("url");
 
                     b.HasKey("Id")
-                        .HasName("pk_search_history");
+                        .HasName("pk_search_histories");
 
                     b.HasIndex("SearchByUserId")
                         .IsUnique()
-                        .HasDatabaseName("ix_search_history_search_by_user_id");
+                        .HasDatabaseName("ix_search_histories_search_by_user_id");
 
-                    b.ToTable("search_history", (string)null);
+                    b.ToTable("search_histories", (string)null);
                 });
 
             modelBuilder.Entity("SearchService.Domain.Entities.User", b =>
@@ -615,7 +615,7 @@ namespace SympliSearch.MigrationService.Migrations
                         .HasForeignKey("SearchService.Domain.Entities.SearchHistory", "SearchByUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_search_history_asp_net_users_search_by_user_id");
+                        .HasConstraintName("fk_search_histories_users_search_by_user_id");
 
                     b.Navigation("SearchByUser");
                 });

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using RedLockNet;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
+using SearchService.Application;
 using SearchService.Application.Common.Exceptions;
 using SearchService.Application.Common.Interfaces;
 using SearchService.Application.Services;
@@ -47,7 +48,7 @@ public static class AddInfrastructureDependencyInjection
         builder.Services.AddHttpContextAccessor();
 
         builder.AddEfCore();
-        builder.AddMassTransit(Assembly.GetCallingAssembly());
+        builder.AddMassTransit();
 
         builder.AddRedisDistributedCache("redis");
         builder.AddRedisOutputCache("redis");
@@ -118,11 +119,11 @@ public static class AddInfrastructureDependencyInjection
         });
     }
 
-    public static void AddMassTransit(this IHostApplicationBuilder builder, Assembly assembly)
+    public static void AddMassTransit(this IHostApplicationBuilder builder)
     {
         builder.Services.AddMassTransit(s =>
         {
-            s.AddConsumers(assembly);
+            s.AddConsumers(typeof(AddApplicationDependencyInjection).Assembly);
             s.UsingRabbitMq((context, cfg) =>
             {
                 var configuration = context.GetRequiredService<IConfiguration>();

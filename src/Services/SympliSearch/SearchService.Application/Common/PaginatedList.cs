@@ -17,6 +17,12 @@ public class PaginatedList<T>
         Items = items;
     }
 
+    public PaginatedList(IReadOnlyCollection<T> items, int count)
+    {
+        TotalCount = count;
+        Items = items;
+    }
+
     public bool HasPreviousPage => PageNumber > 1;
 
     public bool HasNextPage => PageNumber < TotalPages;

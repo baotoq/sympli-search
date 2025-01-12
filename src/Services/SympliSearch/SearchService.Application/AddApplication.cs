@@ -19,13 +19,13 @@ public static class AddApplicationDependencyInjection
     {
         builder.Services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
 
-        builder.Services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         builder.Services.AddExceptionHandler<InvalidValidationExceptionHandler>();
         builder.Services.AddProblemDetails(options =>

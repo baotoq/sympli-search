@@ -26,13 +26,13 @@ public class GetSeo : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder builder)
     {
         builder.MapGet(
-            "/api/seo/{searchEngineType}",
-            [OutputCache(Duration = 3600, VaryByRouteValueNames = ["keyword", "url"])]
+            "/api/seo",
+            [OutputCache(Duration = 3600, VaryByQueryKeys = ["keyword", "url", "searchEngineType"])]
             [EnableRateLimiting("default")]
             async (
-                    [FromQuery] string keyword,
-                    [FromQuery] string url,
-                    [FromRoute] SearchEngineType searchEngineType,
+                    [FromQuery] string? keyword,
+                    [FromQuery] string? url,
+                    [FromQuery] SearchEngineType? searchEngineType,
                     IMediator mediator,
                     CancellationToken cancellationToken
                 )
@@ -40,7 +40,7 @@ public class GetSeo : IEndpoint
                 {
                     Keyword = keyword,
                     Url = url,
-                    SearchEngineType = searchEngineType
+                    SearchEngineType = searchEngineType ?? SearchEngineType.Google
                 }, cancellationToken)));
     }
 
@@ -76,14 +76,14 @@ public class GetSeo : IEndpoint
             var searchEngine = searchEngineFactory.Create(request.SearchEngineType);
 
             var results =
-                s_circuitBreaker.ExecuteAsync(
+                await s_circuitBreaker.ExecuteAsync(
                     () => searchEngine.GetSearchResultsAsync(request.Keyword, request.Url));
 
             var searchHistory = new SearchHistory
             {
                 Keyword = request.Keyword,
                 Url = request.Url,
-                Positions = results.ToString(),
+                Positions = string.Join(",", results),
                 SearchByUserId = Guid.NewGuid()
             };
 
@@ -91,7 +91,7 @@ public class GetSeo : IEndpoint
             {
                 Keyword = request.Keyword,
                 Url = request.Url,
-                Positions = results.ToString(),
+                Positions = string.Join(",", results),
                 SearchByUserId = Guid.NewGuid()
             });
 
