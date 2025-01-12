@@ -4,6 +4,7 @@
 |SearchService|![Test Result](https://github.com/baotoq/sympli-search/actions/workflows/dotnet-test.yml/badge.svg)|
 
 ![Alt text](image1.png)
+![Alt text](image4.png)
 ![Alt text](image2.png)
 ![Alt text](image3.png)
 ```mermaid
