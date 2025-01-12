@@ -6,8 +6,6 @@ namespace SearchService.Application.Services.Search;
 
 public class BingSearchEngine : ISearchEngine
 {
-    private const string BingUrlPattern = $@"<cite>https:\/\/(.*?)\""";
-
     private readonly HttpClient _httpClient;
 
     public BingSearchEngine(HttpClient httpClient)
