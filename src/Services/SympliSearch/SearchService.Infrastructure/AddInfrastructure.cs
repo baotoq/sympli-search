@@ -46,7 +46,7 @@ public static class AddInfrastructureDependencyInjection
 
         builder.Services.AddHttpContextAccessor();
 
-        builder.Services.AddAuthentication();
+        builder.Services.AddAuthentication().AddJwtBearer();
         builder.Services.AddAuthorizationBuilder();
         builder.AddEfCore();
         builder.AddMassTransit();

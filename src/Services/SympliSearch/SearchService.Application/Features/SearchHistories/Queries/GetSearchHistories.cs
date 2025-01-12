@@ -27,7 +27,6 @@ public class GetSearchHistories : IEndpoint
             "/api/search-histories",
             [OutputCache(Duration = 15, VaryByRouteValueNames = ["keyword", "url"])]
             [EnableRateLimiting("default")]
-            [Authorize]
             async (
                     [FromQuery] int? pageNumber,
                     [FromQuery] int? pageSize,

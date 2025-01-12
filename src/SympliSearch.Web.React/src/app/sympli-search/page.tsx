@@ -39,10 +39,18 @@ export default function SearchList() {
   async function handleOnClick(event: any): Promise<void> {
     try {
       event.preventDefault();
+      const auth = localStorage.getItem("token");
       const response = await fetch(
         `http://localhost:5413/api/seo?keyword=${encodeURIComponent(
           keyword
-        )}&url=${encodeURIComponent(url)}&searchEngineType=${encodeURIComponent(searchEngine)}`
+        )}&url=${encodeURIComponent(url)}&searchEngineType=${encodeURIComponent(searchEngine)}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+        }
       );
       const data = await response.json();
 

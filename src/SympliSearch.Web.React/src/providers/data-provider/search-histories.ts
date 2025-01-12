@@ -24,7 +24,14 @@ export const searchHistoriesDataProvider: DataProvider = {
     throw new Error("Not implemented");
   },
   getList: async ({ resource }) => {
-    const response = await fetch(`${API_URL}/${resource}`);
+    const auth = localStorage.getItem("token");
+    const response = await fetch(`${API_URL}/${resource}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    });
     const data = await response.json();
 
     return {

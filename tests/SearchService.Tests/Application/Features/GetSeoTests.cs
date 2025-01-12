@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.AspNetCore.Http;
+using NSubstitute;
 using SearchService.Application.Common.Interfaces;
 using SearchService.Application.Features.Seo.Queries;
 using SearchService.Application.Services.Search;
@@ -9,13 +10,14 @@ namespace SearchService.Tests.Application.Features;
 public class GetSeoTests : TestBase
 {
     [Fact]
-    public async Task ShouldGetSeo()
+    public async Task ShouldGetSeoSuccess()
     {
         // Arrange
         await SeedContext.SaveChangesAsync();
 
         var mockSearchEngineFactory = Substitute.For<ISearchEngineFactory>();
         var mockSearchEngine = Substitute.For<ISearchEngine>();
+        var mockHttpContextAccessor = Substitute.For<IHttpContextAccessor>();
 
         var query = new GetSeo.Query
         {
@@ -28,7 +30,7 @@ public class GetSeoTests : TestBase
         mockSearchEngine.GetSearchResultsAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(searchResults);
         mockSearchEngineFactory.Create(query.SearchEngineType).Returns(mockSearchEngine);
 
-        var sut = new GetSeo.Handler(SeedContext, mockSearchEngineFactory);
+        var sut = new GetSeo.Handler(SeedContext, mockSearchEngineFactory, mockHttpContextAccessor);
 
         // Act
         var act = await sut.Handle(new GetSeo.Query

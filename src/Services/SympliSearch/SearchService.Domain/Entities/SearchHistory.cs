@@ -15,5 +15,5 @@ public class SearchHistory : EntityBase
     public string Url { get; set; } = string.Empty;
     public string Positions { get; set; } = string.Empty;
 
-    public required Guid SearchByUserId { get; set; }
+    public Guid SearchByUserId { get; set; } = default;
 }

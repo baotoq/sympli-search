@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Security.Claims;
 using FluentValidation;
 using MassTransit;
 using MediatR;
@@ -30,7 +31,6 @@ public class GetSeo : IEndpoint
             "/api/seo",
             [OutputCache(Duration = 3600, VaryByQueryKeys = ["keyword", "url", "searchEngineType"])]
             [EnableRateLimiting("default")]
-            [Authorize]
             async (
                     [FromQuery] string? keyword,
                     [FromQuery] string? url,
@@ -68,7 +68,7 @@ public class GetSeo : IEndpoint
         public List<int> Positions { get; init; }
     }
 
-    public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory) : IRequestHandler<Query, Response>
+    public class Handler(IApplicationDbContext context, ISearchEngineFactory searchEngineFactory, IHttpContextAccessor httpContextAccessor) : IRequestHandler<Query, Response>
     {
         private static readonly AsyncCircuitBreakerPolicy s_circuitBreaker
             = Policy.Handle<Exception>().CircuitBreakerAsync(3, TimeSpan.FromMinutes(1));
@@ -91,7 +91,6 @@ public class GetSeo : IEndpoint
                 Keyword = request.Keyword,
                 Url = request.Url,
                 Positions = string.Join(",", results),
-                SearchByUserId = Guid.NewGuid()
             };
 
             searchHistory.AddDomainEvent(new GetSeoSuccessfullyDomainEvent
@@ -99,7 +98,6 @@ public class GetSeo : IEndpoint
                 Keyword = request.Keyword,
                 Url = request.Url,
                 Positions = string.Join(",", results),
-                SearchByUserId = Guid.NewGuid()
             });
 
             await context.SearchHistories.AddAsync(searchHistory, cancellationToken);
