@@ -61,6 +61,8 @@ public static class AddInfrastructureDependencyInjection
         builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<SearchDbContext>());
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
         builder.Services.AddScoped<ISearchEngineFactory, SearchEngineFactory>();
+        builder.Services.AddTransient<ISearchEngine, GoogleSearchEngine>();
+        builder.Services.AddTransient<ISearchEngine, BingSearchEngine>();
         builder.Services.AddTransient<GoogleSearchEngine>();
         builder.Services.AddTransient<BingSearchEngine>();
 

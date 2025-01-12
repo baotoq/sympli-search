@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using SearchService.Application.Common.Interfaces;
 
@@ -5,32 +6,57 @@ namespace SearchService.Application.Services.Search;
 
 public class BingSearchEngine : ISearchEngine
 {
+    private const string BingUrlPattern = $@"<cite>https:\/\/(.*?)\""";
+
+    private readonly HttpClient _httpClient;
+
+    public BingSearchEngine(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+
+        _httpClient.BaseAddress = new Uri("https://www.bing.com");
+        _httpClient.DefaultRequestHeaders.Add("User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+    }
+
     public async Task<List<int>> GetSearchResultsAsync(string keywords, string url)
     {
-        string query = $"https://www.bing.com/search?q={Uri.EscapeDataString(keywords)}";
-        string html = await FetchHtmlAsync(query);
-        return ParseResults(html, url);
-    }
+        var htmlContent = await SearchBingAsync(keywords);
 
-    private async Task<string> FetchHtmlAsync(string url)
-    {
-        using var client = new HttpClient();
-        return await client.GetStringAsync(url);
-    }
+        var foundUrls = ParseHtml(htmlContent);
 
-    private List<int> ParseResults(string html, string targetUrl)
-    {
-        var matches = Regex.Matches(html, @"<a\s[^>]*href=['""](https?://[^'""]+)", RegexOptions.IgnoreCase);
         var positions = new List<int>();
-
-        for (int i = 0; i < matches.Count; i++)
+        int position = 1;
+        foreach (var foundUrl in foundUrls)
         {
-            if (matches[i].Groups[1].Value.Contains(targetUrl, StringComparison.OrdinalIgnoreCase))
+            if (foundUrl.Contains(url, StringComparison.OrdinalIgnoreCase))
             {
-                positions.Add(i + 1);
+                positions.Add(position);
             }
+            position++;
         }
 
-        return positions.Count > 0 ? positions : new List<int> { 0 };
+        return positions.Count > 0 ? positions : [0];
+    }
+
+    private async Task<string> SearchBingAsync(string keywords)
+    {
+        var url = $"/search?q={Uri.EscapeDataString(keywords)}";
+
+        var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    private List<string> ParseHtml(string html)
+    {
+        // Basic HTML parsing logic to extract URLs
+        var urls = new List<string>();
+        var regex = new Regex(@"(https://[^""]+)", RegexOptions.IgnoreCase);
+        foreach (Match match in regex.Matches(html).Take(100))
+        {
+            urls.Add(match.Groups[1].Value);
+        }
+        return urls;
     }
 }

@@ -39,5 +39,8 @@ public static class AddApplicationDependencyInjection
         });
 
         builder.Services.AddEndpoints();
+
+        builder.Services.AddHttpClient<GoogleSearchEngine>();
+        builder.Services.AddHttpClient<BingSearchEngine>();
     }
 }
