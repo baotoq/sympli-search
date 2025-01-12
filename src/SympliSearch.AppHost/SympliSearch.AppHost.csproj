@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Services\Identity\IdentityService.Api\IdentityService.Api.csproj" />
     <ProjectReference Include="..\Services\SympliSearch.MigrationService\SympliSearch.MigrationService.csproj" />
     <ProjectReference Include="..\Services\SympliSearch\SearchService.Api\SearchService.Api.csproj" />
   </ItemGroup>

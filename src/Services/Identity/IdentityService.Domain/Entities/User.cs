@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Identity;
-using SearchService.Domain.Common;
 
-namespace SearchService.Domain.Entities;
+namespace IdentityService.Domain.Entities;
 
-public class User : IdentityUser<Guid>, IDateEntity
+public class User : IdentityUser<Guid>
 {
     public sealed override Guid Id { get; set; }
 

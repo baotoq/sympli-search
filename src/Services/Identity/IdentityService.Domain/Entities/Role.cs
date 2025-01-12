@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace SearchService.Domain.Entities;
+namespace IdentityService.Domain.Entities;
 
 public class Role : IdentityRole<Guid>
 {

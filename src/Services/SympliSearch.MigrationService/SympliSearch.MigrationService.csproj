@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SympliSearch.ServiceDefaults\SympliSearch.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Identity\IdentityService.Api\IdentityService.Api.csproj" />
     <ProjectReference Include="..\SympliSearch\SearchService.Api\SearchService.Api.csproj" />
   </ItemGroup>
 

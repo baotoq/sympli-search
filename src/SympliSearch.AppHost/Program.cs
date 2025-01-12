@@ -7,7 +7,8 @@ var postgres = builder.AddPostgres("postgres")
     .WithPgAdmin()
     .WithLifetime(ContainerLifetime.Persistent);
 
-var db = postgres.AddDatabase("db");
+var searchdb = postgres.AddDatabase("searchdb");
+var identitydb = postgres.AddDatabase("identitydb");
 
 var storage = builder.AddAzureStorage("storage");
 
@@ -30,14 +31,19 @@ var rabbitmq = builder.AddRabbitMQ("messaging")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var migrationService = builder.AddProject<Projects.SympliSearch_MigrationService>("migrationservice")
-    .WithReference(db).WaitFor(db)
-    .WithReference(rabbitmq).WaitFor(rabbitmq)
+    .WithReference(searchdb).WaitFor(searchdb)
+    .WithReference(identitydb).WaitFor(identitydb)
     .WithHttpHealthCheck("/health");
 
 var searchService = builder.AddProject<Projects.SearchService_Api>("searchservice")
     .WithReference(cache)
     .WithReference(rabbitmq).WaitFor(rabbitmq)
-    .WithReference(db).WaitFor(db)
+    .WithReference(searchdb).WaitFor(searchdb)
+    .WithHttpHealthCheck("/health");
+
+var identityService = builder.AddProject<Projects.IdentityService_Api>("identityservice")
+    .WithReference(cache)
+    .WithReference(identitydb).WaitFor(identitydb)
     .WithHttpHealthCheck("/health");
 
 builder.Build().Run();

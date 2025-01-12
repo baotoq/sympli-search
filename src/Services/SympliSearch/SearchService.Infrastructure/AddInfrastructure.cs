@@ -28,7 +28,6 @@ using SearchService.Infrastructure.Data.Interceptors;
 using SearchService.Infrastructure.Dispatcher;
 using SearchService.Infrastructure.Services;
 using StackExchange.Redis;
-using User = SearchService.Domain.Entities.User;
 
 namespace SearchService.Infrastructure;
 
@@ -47,6 +46,8 @@ public static class AddInfrastructureDependencyInjection
 
         builder.Services.AddHttpContextAccessor();
 
+        builder.Services.AddAuthentication();
+        builder.Services.AddAuthorizationBuilder();
         builder.AddEfCore();
         builder.AddMassTransit();
 
@@ -57,9 +58,7 @@ public static class AddInfrastructureDependencyInjection
 #pragma warning restore EXTEXP0018
         builder.AddRedLock();
 
-        builder.AddAuthorization();
-
-        builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<SearchDbContext>());
         builder.Services.AddTransient<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
         builder.Services.AddScoped<ISearchEngineFactory, SearchEngineFactory>();
         builder.Services.AddTransient<GoogleSearchEngine>();
@@ -92,28 +91,20 @@ public static class AddInfrastructureDependencyInjection
         });
     }
 
-    private static void AddAuthorization(this IHostApplicationBuilder builder)
-    {
-        builder.Services.AddIdentityApiEndpoints<User>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
-
-        builder.Services.AddAuthorizationBuilder();
-    }
-
     private static void AddEfCore(this IHostApplicationBuilder builder)
     {
         builder.Services.AddScoped<ISaveChangesInterceptor, DateEntityInterceptor>();
         builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-        builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        builder.Services.AddDbContext<SearchDbContext>((sp, options) =>
         {
             var configuration = sp.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetConnectionString("db");
+            var connectionString = configuration.GetConnectionString("searchdb");
             options.UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention();
             options.AddInterceptors(sp.GetServices<DateEntityInterceptor>());
             options.AddInterceptors(sp.GetServices<DispatchDomainEventsInterceptor>());
         });
-        builder.EnrichNpgsqlDbContext<ApplicationDbContext>(s =>
+        builder.EnrichNpgsqlDbContext<SearchDbContext>(s =>
         {
             s.DisableRetry = true;
         });
@@ -136,7 +127,7 @@ public static class AddInfrastructureDependencyInjection
                 cfg.AutoDelete = true;
             });
 
-            s.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
+            s.AddEntityFrameworkOutbox<SearchDbContext>(o =>
             {
                 o.UsePostgres();
                 o.UseBusOutbox();

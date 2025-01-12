@@ -3,18 +3,16 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SearchService.Application.Common.Interfaces;
 using SearchService.Domain.Entities;
-using Role = SearchService.Domain.Entities.Role;
-using User = SearchService.Domain.Entities.User;
 
 namespace SearchService.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>, IApplicationDbContext
+public class SearchDbContext : DbContext, IApplicationDbContext
 {
-    public ApplicationDbContext()
+    public SearchDbContext()
     {
     }
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    public SearchDbContext(DbContextOptions<SearchDbContext> options) : base(options)
     {
     }
 
@@ -30,11 +28,8 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>, IApplic
             entity.Property(e => e.Keyword).IsRequired().HasMaxLength(255);
             entity.Property(e => e.Url).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Positions).IsRequired();
-            entity
-                .HasOne(e => e.SearchByUser)
-                .WithOne()
-                .HasForeignKey<SearchHistory>(e => e.SearchByUserId)
-                .IsRequired();
+            entity.Property(e => e.SearchByUserId).IsRequired();
+            entity.HasIndex(e => e.SearchByUserId);
         });
 
         modelBuilder.AddTransactionalOutboxEntities();

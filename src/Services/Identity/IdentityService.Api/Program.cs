@@ -1,7 +1,6 @@
-using SearchService.Application;
-using SearchService.Application.Common;
-using SearchService.Domain.Entities;
-using SearchService.Infrastructure;
+using IdentityService.Application;
+using IdentityService.Domain.Entities;
+using IdentityService.Infrastructure;
 using SympliSearch.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +43,6 @@ app.UseAuthorization();
 app.MapDefaultEndpoints();
 app.MapOpenApiEndpoints();
 
-app.MapEndpoints();
+app.MapIdentityApi<User>().WithTags("Identity");
 
 app.Run();
