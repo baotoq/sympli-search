@@ -32,8 +32,8 @@ public class GetSeo : IEndpoint
             [OutputCache(Duration = 3600, VaryByQueryKeys = ["keyword", "url", "searchEngineType"])]
             [EnableRateLimiting("default")]
             async (
-                    [FromQuery] string? keyword,
-                    [FromQuery] string? url,
+                    [FromQuery] string keyword,
+                    [FromQuery] string url,
                     [FromQuery] SearchEngineType? searchEngineType,
                     IMediator mediator,
                     CancellationToken cancellationToken
